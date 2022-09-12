@@ -55,6 +55,10 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 const port = 4001;
 
+if (process.env.NODE_ENV !== "development") {
+  port = process.env.PORT;
+}
+
 server.get("/", homeController);
 
 server.get("/event", fetchEvent);
@@ -80,10 +84,6 @@ server.get("/tickettype/:id", fetchSingleTicketType);
 server.delete("/tickettype/:id", deleteTicketType);
 server.put("/tickettype/:id", validateTicketTypeUpdateData, updateTicketType);
 server.post("/tickettype", validateTicketTypeData, createTicketType);
-
-if (process.env.NODE_ENV !== "development") {
-  port = process.env.PORT;
-}
 
 server.listen(port, () => {
   console.log(`listening on port ${port}`);

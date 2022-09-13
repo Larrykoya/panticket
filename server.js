@@ -53,7 +53,7 @@ connectToDB()
 const server = express();
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-const port = 4001;
+let port = 4001;
 
 if (process.env.NODE_ENV !== "development") {
   port = process.env.PORT;

@@ -2,6 +2,8 @@ import express from "express";
 import { homeController } from "./controllers/home.controller";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import multer from "multer";
+import { v4 as uuidv4 } from "uuid";
 import {
   validateEventData,
   validateEventUpdateData,
@@ -45,6 +47,14 @@ import {
 } from "./controllers/ticketType.controller";
 dotenv.config();
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./tmp");
+  },
+});
+
+const upload = multer({ storage });
+
 const connectToDB = () => mongoose.connect(process.env.DEV_DB);
 connectToDB()
   .then(() => console.log("connected"))
@@ -53,6 +63,10 @@ connectToDB()
 const server = express();
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+
+server.options("*", cors());
+server.use(cors());
+
 let port = 4001;
 
 if (process.env.NODE_ENV !== "development") {
@@ -63,7 +77,7 @@ server.get("/", homeController);
 
 server.get("/event", fetchEvent);
 server.get("/event/:id", fetchSingleEvent);
-server.post("/event", validateEventData, createEvent);
+server.post("/event", upload.single("image"), validateEventData, createEvent);
 server.put("/event/:id", validateEventUpdateData, updateEvent);
 server.delete("/event/:id", deleteEvent);
 

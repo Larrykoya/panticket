@@ -3,7 +3,6 @@ import { homeController } from "./controllers/home.controller";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import multer from "multer";
-//import { v4 as uuidv4 } from "uuid";
 import {
   validateEventData,
   validateEventUpdateData,

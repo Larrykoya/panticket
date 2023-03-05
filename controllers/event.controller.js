@@ -2,9 +2,9 @@ import Event from "../models/event.model";
 import cloudinary from "cloudinary";
 
 cloudinary.config({
-  cloud_name: "larrykoya",
-  api_key: "332728735358391",
-  api_secret: "sU3tBEhNsExduvy2XC5o_1V6A6A",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export async function createEvent(req, res) {
